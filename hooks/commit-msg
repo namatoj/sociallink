@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Description: A simple script to lint commit messages
+
+set -e
+set -o pipefail
+
+COMMIT_MESSAGE=$(cat $1 | head -n 1) 
+# Check if commit message starts with valid prefix and optional scope () and a colon
+# If it does, exit with a success message
+# If it doesn't, exit with an error message
+# Valid prefixes are: feat, fix, docs, style, refactor, test, chore
+
+REGEXP='^(feat|fix|docs|style|refactor|test|chore)(\([a-z]+\))?:\s[a-z]([a-zA-Z0-9-]|\s)+$'
+
+if [[ "$COMMIT_MESSAGE" =~ $REGEXP ]]; then
+  exit 0
+else
+  echo "Commit message is invalid: $COMMIT_MESSAGE. It should start with a valid prefix and optional scope in parentheses"
+  echo "Valid prefixes are: feat, fix, docs, style, refactor, test, chore"
+  exit 1
+fi
+
+
