@@ -6,11 +6,11 @@
 
 ## Local development
 
-Run `./scripts/init-repo.sh` to set up commit hooks. Install the dependencies with `go mod tidy`
+Run `./scripts/init-repo.sh` to set up commit hooks. Install the dependencies with `go mod tidy` Install [air](https://github.com/cosmtrek/air) to enable live reloading.
 
 ## Web app
 
-Start the application with `go run cmd/web/main.go serve`.
+With `air` installed start the app by running `air`. Otherwise start the application with `go run cmd/web/main.go serve`.
 
 ## CLI
 
