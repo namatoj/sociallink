@@ -22,3 +22,6 @@ go.work
 
 # pocket base
 pb_data
+
+# air
+tmp/*
