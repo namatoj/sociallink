@@ -30,16 +30,16 @@ func main() {
 
 			fmt.Printf("\n%s %s\n", email, password)
 
-			record, err := app.Dao().FindAuthRecordByEmail("users", email)
+			authRecord, err := app.Dao().FindAuthRecordByEmail("users", email)
 			if err != nil {
 				return err
 			}
 
-			if !record.ValidatePassword(password) {
+			if !authRecord.ValidatePassword(password) {
 				return c.HTML(http.StatusUnauthorized, "401 - Unauthorized")
 			}
 
-			token, tokenErr := tokens.NewRecordAuthToken(app, record)
+			token, tokenErr := tokens.NewRecordAuthToken(app, authRecord)
 			if tokenErr != nil {
 				return c.HTML(http.StatusInternalServerError, "500 - Internal Server Error")
 			}
