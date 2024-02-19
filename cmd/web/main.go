@@ -45,6 +45,15 @@ func main() {
 			}
 			fmt.Printf("%v\n", token)
 
+			c.SetCookie(&http.Cookie{
+				Name:     "token",
+				Value:    token,
+				Path:     "/",
+				Secure:   true,
+				HttpOnly: true,
+				SameSite: http.SameSiteLaxMode,
+			})
+
 			return c.HTML(http.StatusOK, "/login")
 		})
 
