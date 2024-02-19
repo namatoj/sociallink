@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -9,6 +10,7 @@ import (
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/pocketbase/pocketbase/tokens"
 )
 
 func main() {
@@ -25,7 +27,23 @@ func main() {
 			// data := apis.RequestInfo(c).Data
 			email := c.FormValue("email")
 			password := c.FormValue("password")
-			print(email, password)
+
+			fmt.Printf("\n%s %s\n", email, password)
+
+			record, err := app.Dao().FindAuthRecordByEmail("users", email)
+			if err != nil {
+				return err
+			}
+
+			if !record.ValidatePassword(password) {
+				return c.HTML(http.StatusUnauthorized, "401 - Unauthorized")
+			}
+
+			token, tokenErr := tokens.NewRecordAuthToken(app, record)
+			if tokenErr != nil {
+				return c.HTML(http.StatusInternalServerError, "500 - Internal Server Error")
+			}
+			fmt.Printf("%v\n", token)
 
 			return c.HTML(http.StatusOK, "/login")
 		})
