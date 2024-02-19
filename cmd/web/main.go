@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -24,11 +23,8 @@ func main() {
 
 	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		e.Router.POST("/login/", func(c echo.Context) error {
-			// data := apis.RequestInfo(c).Data
 			email := c.FormValue("email")
 			password := c.FormValue("password")
-
-			fmt.Printf("\n%s %s\n", email, password)
 
 			authRecord, err := app.Dao().FindAuthRecordByEmail("users", email)
 			if err != nil {
@@ -43,7 +39,6 @@ func main() {
 			if tokenErr != nil {
 				return c.HTML(http.StatusInternalServerError, "500 - Internal Server Error")
 			}
-			fmt.Printf("%v\n", token)
 
 			c.SetCookie(&http.Cookie{
 				Name:     "token",
