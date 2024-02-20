@@ -121,6 +121,23 @@ func main() {
 		return nil
 	})
 
+	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+		e.Router.GET("/logout/", func(c echo.Context) error {
+			c.SetCookie(&http.Cookie{
+				Name:     "token",
+				Value:    "",
+				Path:     "/",
+				MaxAge:   -1,
+				Secure:   true,
+				HttpOnly: true,
+			})
+
+			return c.HTML(http.StatusOK, "logged out")
+		})
+
+		return nil
+	})
+
 	if err := app.Start(); err != nil {
 		log.Fatal(err)
 	}
