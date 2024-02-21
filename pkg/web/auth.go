@@ -55,7 +55,6 @@ func LogoutHandler(c echo.Context) error {
 	})
 
 	return c.HTML(http.StatusOK, "logged out")
-
 }
 
 func LoadAuthContextFromCookie(app core.App) echo.MiddlewareFunc {

@@ -34,7 +34,6 @@ func RootHandler(c echo.Context) error {
 
 	if isGuest {
 		return c.HTML(http.StatusOK, "not logged in")
-
 	}
 
 	return c.HTML(http.StatusOK, "logged in")
