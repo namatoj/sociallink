@@ -23,7 +23,7 @@ func LoginHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 
 		authRecord, err := app.Dao().FindAuthRecordByEmail("users", email)
 		if err != nil {
-			return err
+			return c.HTML(http.StatusUnauthorized, "401 - Unauthorized")
 		}
 
 		if !authRecord.ValidatePassword(password) {
