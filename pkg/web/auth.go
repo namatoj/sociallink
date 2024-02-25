@@ -12,6 +12,10 @@ import (
 	"github.com/spf13/cast"
 )
 
+const (
+	ContextAuthIsGuestKey string = "isGuest"
+)
+
 func LoginHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		email := c.FormValue("email")
@@ -62,6 +66,7 @@ func LoadAuthContextFromCookie(app core.App) echo.MiddlewareFunc {
 		return func(c echo.Context) error {
 			tokenCookie, err := c.Request().Cookie("token")
 			if err != nil || tokenCookie.Value == "" {
+				c.Set(ContextAuthIsGuestKey, true)
 				return next(c) // no token cookie
 			}
 

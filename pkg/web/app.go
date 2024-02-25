@@ -8,6 +8,7 @@ import (
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
 	"github.com/pocketbase/pocketbase/core"
+	"github.com/spf13/cast"
 )
 
 func App() *pocketbase.PocketBase {
@@ -26,11 +27,8 @@ func App() *pocketbase.PocketBase {
 }
 
 func RootHandler(c echo.Context) error {
-	info := apis.RequestInfo(c)
-	admin := info.Admin       // nil if not authenticated as admin
-	record := info.AuthRecord // nil if not authenticated as regular auth record
-
-	isGuest := admin == nil && record == nil
+	isGuestRaw := c.Get(ContextAuthIsGuestKey)
+	isGuest := cast.ToBool(isGuestRaw)
 
 	if isGuest {
 		return c.HTML(http.StatusOK, "not logged in")
