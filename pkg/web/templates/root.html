@@ -1,0 +1,15 @@
+{{ define "body" }}
+   {{ if .isGuest }}
+    <p>Hello, guest</p>
+    <form action="login/" method="post">
+        <label for="email">email: </label><br />
+        <input type="email" name="email" id="email" required /><br />
+        <label for="password">password: </label><br />
+        <input type="password" name="password" id="password" required /><br />
+        <button type="submit">Log in!</button>
+    </form>
+    {{ else }}
+        <p>Hello, {{ .user.Email }}</p>
+        <a href="logout/">Log out!</a>
+    {{ end }}
+{{ end }}

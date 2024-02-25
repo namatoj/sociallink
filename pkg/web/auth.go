@@ -23,7 +23,7 @@ func LoginHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 
 		authRecord, err := app.Dao().FindAuthRecordByEmail("users", email)
 		if err != nil {
-			return err
+			return c.HTML(http.StatusUnauthorized, "401 - Unauthorized")
 		}
 
 		if !authRecord.ValidatePassword(password) {
@@ -44,7 +44,7 @@ func LoginHandler(app *pocketbase.PocketBase) echo.HandlerFunc {
 			SameSite: http.SameSiteLaxMode,
 		})
 
-		return c.HTML(http.StatusOK, "/login/")
+		return c.Redirect(http.StatusSeeOther, "/")
 	}
 }
 
@@ -58,7 +58,7 @@ func LogoutHandler(c echo.Context) error {
 		HttpOnly: true,
 	})
 
-	return c.HTML(http.StatusOK, "logged out")
+	return c.Redirect(http.StatusSeeOther, "/")
 }
 
 func LoadAuthContextFromCookie(app core.App) echo.MiddlewareFunc {
