@@ -1,0 +1,6 @@
+# ignore everything and exclude the folders we want
+*
+!pkg
+!cmd
+!go.mod
+!go.sum
