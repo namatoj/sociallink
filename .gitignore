@@ -25,3 +25,6 @@ pb_data
 
 # air
 tmp/*
+
+# build artifacts
+dist/*
